@@ -10,13 +10,21 @@ class Game
 
   def play
     board.display # display board to player
-
+    prompt
     # get r/f & position (validate input)
     # if flag, toggle display between "F" & "-"
     # if reveal
       # check if pos bomb
         # bomb => game over
       # not bomb => check surroundings for bombs & check pos valid?
+  end
+
+  def prompt
+    puts "Please enter either 'r' for (R)eveal or 'f' for (F)lag."
+    action = gets.chomp
+    puts "Please enter a position"
+    pos = gets.chomp.split(",").map { |el| el.to_i }
+    [action, pos]
   end
 
 end
