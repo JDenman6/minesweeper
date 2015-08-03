@@ -1,7 +1,7 @@
 class Board
   attr_reader :grid
   def initialize
-    @grid = Array.new(9) { Array.new(9) }
+    @grid = Array.new(9) { Array.new(9) {Tile.new} }
     place_bombs
   end
 
@@ -14,6 +14,14 @@ class Board
       end
     end
     spaces
+  end
+
+  def display
+    grid.each do |row|
+      puts row.join(" ")
+    end
+
+    nil
   end
 
   def place_bombs
@@ -32,6 +40,10 @@ class Tile
   def initialize
     @bomb = false
     @display = "-"
+  end
+
+  def to_s
+    display
   end
 
 end
