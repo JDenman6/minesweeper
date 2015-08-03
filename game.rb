@@ -21,21 +21,29 @@ class Game
   end
 
   def play
-    board.display # display board to player
-      until won?
+    board.display
+    puts "~~~~~~~~~~~~~~~~~~" # display board to player
+    until won?
       input = prompt # get r/f & position !!(validate input)
-      toggle_flag(input[1]) if input[0] == "f" # if flag, toggle display between "F" & "-"
+      if input[0] == "f"
+        toggle_flag(input[1]) # if flag, toggle display between "F" & "-"
+        board.display
+        puts "~~~~~~~~~~~~~~~~~~"
+        next
+      end
       return "Game Over!" if input[0] == "r" && bomb?(input[1])
       check(input[1])
     end
-
-    # if reveal
-      # check if pos bomb
-        # bomb => game over
-      # not bomb => check surroundings for bombs & check pos valid?
+    puts "Congratulations!"
   end
 
+  def won?
+    count = self.board.grid.flatten.count do |obj|
+      ("0".."8").include?(obj.display)
+    end
 
+    count == 71
+  end
 
   def prompt
     puts "Please enter either 'r' for (R)eveal or 'f' for (F)lag."
@@ -72,6 +80,7 @@ class Game
         queue.shift
       end
       board.display
+      puts "~~~~~~~~~~~~~~~~~~"
     end
     # iterate over queue looking for base condition
     # base condition is that child holds a bomb
