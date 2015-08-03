@@ -11,9 +11,14 @@ class Game
   def play
     board.display # display board to player
     input = prompt # get r/f & position !!(validate input)
-    toggle_flag(input[1]) if input[0] == "f"
+    toggle_flag(input[1]) if input[0] == "f" # if flag, toggle display between "F" & "-"
     board.display
-    # if flag, toggle display between "F" & "-"
+    return "Game Over!" if input[0] == "r" && bomb?(input[1])
+
+
+
+
+
     # if reveal
       # check if pos bomb
         # bomb => game over
@@ -29,8 +34,13 @@ class Game
   end
 
   def toggle_flag(pos)
-    y, x = pos
+    x, y = pos
     board.grid[x][y].display = (board.grid[x][y].display == "F") ? "-" : "F"
+  end
+
+  def bomb?(pos)
+    x, y = pos
+    board.grid[x][y].bomb
   end
 
 end
