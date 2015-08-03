@@ -25,7 +25,7 @@ class Game
     until won?
       input = prompt #!!(validate input)
       if input[0] == "f"
-        toggle_flag(input[1]) 
+        toggle_flag(input[1])
         board.display
         next
       end
@@ -44,11 +44,31 @@ class Game
   end
 
   def prompt
-    puts "Please enter either 'r' for (R)eveal or 'f' for (F)lag."
-    action = gets.chomp
-    puts "Please enter a position"
-    pos = gets.chomp.split(",").map { |el| el.to_i }
+    valid = false
+    until valid
+      puts "Please enter either 'r' for (R)eveal or 'f' for (F)lag."
+      action = gets.chomp
+      valid = action_valid?(action)
+    end
+
+    valid = false
+    until valid
+      puts "Please enter a position"
+      pos = gets.chomp.split(",").map { |el| el.to_i }
+      valid = pos_valid?(pos)
+    end
+
     [action, pos]
+  end
+
+  def action_valid?(action)
+    action == "r" || action == "f"
+  end
+
+  def pos_valid?(pos)
+    pos.all? {|el| el.between?(0,8)} &&
+      pos.length == 2 &&
+      (board[pos].display == "-" || board[pos].display == "F")
   end
 
   def toggle_flag(pos)
@@ -76,12 +96,6 @@ class Game
       end
     end
     board.display
-
-
-    # iterate over queue looking for base condition
-    # base condition is that child holds a bomb
-    # count how many bombs that child can see
-    # update child space to bomb count
   end
 
   def children(pos)
