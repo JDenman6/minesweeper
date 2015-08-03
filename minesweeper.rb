@@ -44,15 +44,31 @@ end
 
 class Tile
 
-  attr_accessor :bomb, :display
+  attr_accessor :bomb, :display, :revealed
 
   def initialize
     @bomb = false
     @display = "-"
+    @revealed = false
+  end
+
+  def bomb?
+    self.bomb
+  end
+
+  def revealed?
+    self.revealed
   end
 
   def to_s
     display
   end
 
+  def toggle_flag
+    self.display = (display == "F") ? "-" : "F"
+  end
+
+  def reveal
+    self.revealed = true
+  end
 end

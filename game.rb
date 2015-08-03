@@ -27,7 +27,7 @@ class Game
     until won?
       input = prompt #!!(validate input)
       if input[0] == "f"
-        toggle_flag(input[1])
+        self.board[input[1]].toggle_flag
         board.display
         next
       end
@@ -71,10 +71,6 @@ class Game
     pos.all? {|el| el.between?(0,8)} &&
       pos.length == 2 &&
       (board[pos].display == "-" || board[pos].display == "F")
-  end
-
-  def toggle_flag(pos)
-    board[pos].display = (board[pos].display == "F") ? "-" : "F"
   end
 
   def bomb?(pos)
