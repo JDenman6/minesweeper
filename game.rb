@@ -1,4 +1,5 @@
 require_relative 'minesweeper'
+require 'byebug'
 
 class Game
 
@@ -21,17 +22,20 @@ class Game
 
   def play
     board.display # display board to player
-    input = prompt # get r/f & position !!(validate input)
-    toggle_flag(input[1]) if input[0] == "f" # if flag, toggle display between "F" & "-"
-    board.display
-    return "Game Over!" if input[0] == "r" && bomb?(input[1])
-    recursive_check(input[1])
+      until won?
+      input = prompt # get r/f & position !!(validate input)
+      toggle_flag(input[1]) if input[0] == "f" # if flag, toggle display between "F" & "-"
+      return "Game Over!" if input[0] == "r" && bomb?(input[1])
+      check(input[1])
+    end
 
     # if reveal
       # check if pos bomb
         # bomb => game over
       # not bomb => check surroundings for bombs & check pos valid?
   end
+
+
 
   def prompt
     puts "Please enter either 'r' for (R)eveal or 'f' for (F)lag."
@@ -51,11 +55,24 @@ class Game
     board.grid[x][y].bomb
   end
 
-  def recursive_check(pos)
-    
-    # create an array of children positions
-    # remove invalid positions
-    # add valid positions to queue unless it is already there
+  def check(pos)
+    # debugger
+    queue = [pos]
+    seen_children = []
+    until queue.empty?
+      current_children = children(queue.first) # create an array of children positions & remove invalid positions
+      x, y = queue.first
+      self.board.grid[x][y].display = (current_children.count { |child| bomb?(child) }).to_s
+      if board.grid[x][y].display == "0"
+        seen_children << queue.shift
+        current_children.each do |child|
+          queue << child unless seen_children.include?(child) || queue.include?(child)
+        end
+      else
+        queue.shift
+      end
+      board.display
+    end
     # iterate over queue looking for base condition
     # base condition is that child holds a bomb
     # count how many bombs that child can see
