@@ -25,10 +25,11 @@ class Board
   end
 
   def place_bombs
-    # bomb_spaces = board_spaces.sample(10)
-    # bomb_spaces.each do |space|
-    #
-    # end
+    bomb_spaces = board_spaces.sample(10)
+    bomb_spaces.each do |space|
+      x, y = space
+      grid[x][y].bomb = true
+    end
   end
 
 end
