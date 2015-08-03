@@ -24,3 +24,14 @@ class Board
   end
 
 end
+
+class Tile
+
+  attr_accessor :bomb, :display
+
+  def initialize
+    @bomb = false
+    @display = "-"
+  end
+
+end
