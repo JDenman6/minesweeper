@@ -42,7 +42,7 @@ class Game
       ("0".."8").include?(obj.display)
     end
 
-    count == 71
+    count == (board.board_size ** 2) - board.bomb_number
   end
 
   def prompt

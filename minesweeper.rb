@@ -1,8 +1,12 @@
 class Board
   attr_reader :grid
-  def initialize
-    @grid = Array.new(9) { Array.new(9) {Tile.new} }
-    place_bombs
+  attr_accessor :board_size, :bomb_number
+
+  def initialize(board_size = 9, bomb_number = 10)
+    @board_size = board_size
+    @bomb_number = bomb_number
+    @grid = Array.new(board_size) { Array.new(board_size) {Tile.new} }
+    place_bombs(bomb_number)
   end
 
   def [](pos)
@@ -33,8 +37,8 @@ class Board
     nil
   end
 
-  def place_bombs
-    bomb_spaces = board_spaces.sample(10)
+  def place_bombs(bomb_number)
+    bomb_spaces = board_spaces.sample(bomb_number)
     bomb_spaces.each do |space|
       self[space].bomb = true
     end
