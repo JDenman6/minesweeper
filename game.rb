@@ -3,6 +3,8 @@ require 'byebug'
 
 class Game
 
+  # BOARD_SIZE = 9
+
   SURROUNDING_DELTA = [
     [-1,  1],
     [-1,  0],
@@ -82,14 +84,14 @@ class Game
   def check(pos)
     # debugger
     queue = [pos]
-    seen_children = []
+    seen_neighbors = []
     until queue.empty?
-      current_children = children(queue.first) # create an array of children positions & remove invalid positions
-      self.board[queue.first].display = (current_children.count { |child| bomb?(child) }).to_s
+      current_neighbors = neighbors(queue.first) # create an array of neighbors positions & remove invalid positions
+      self.board[queue.first].display = (current_neighbors.count { |neighbor| bomb?(neighbor) }).to_s
       if board[queue.first].display == "0"
-        seen_children << queue.shift
-        current_children.each do |child|
-          queue << child unless seen_children.include?(child) || queue.include?(child)
+        seen_neighbors << queue.shift
+        current_neighbors.each do |neighbor|
+          queue << neighbor unless seen_neighbors.include?(neighbor) || queue.include?(neighbor)
         end
       else
         queue.shift
@@ -98,14 +100,14 @@ class Game
     board.display
   end
 
-  def children(pos)
-    children = []
+  def neighbors(pos)
+    neighbors = []
     x,y = pos
     SURROUNDING_DELTA.each do |delta|
-      child_pos = [(delta[0] + x) , (delta[1] + y)]
-      children << child_pos if is_valid?(child_pos)
+      neighbor_pos = [(delta[0] + x) , (delta[1] + y)]
+      neighbors << neighbor_pos if is_valid?(neighbor_pos)
     end
-    children
+    neighbors
   end
 
   def is_valid?(pos)
