@@ -54,13 +54,11 @@ class Game
   end
 
   def toggle_flag(pos)
-    x, y = pos
-    board.grid[x][y].display = (board.grid[x][y].display == "F") ? "-" : "F"
+    board[pos].display = (board[pos].display == "F") ? "-" : "F"
   end
 
   def bomb?(pos)
-    x, y = pos
-    board.grid[x][y].bomb
+    board[pos].bomb
   end
 
   def check(pos)
@@ -69,9 +67,8 @@ class Game
     seen_children = []
     until queue.empty?
       current_children = children(queue.first) # create an array of children positions & remove invalid positions
-      x, y = queue.first
-      self.board.grid[x][y].display = (current_children.count { |child| bomb?(child) }).to_s
-      if board.grid[x][y].display == "0"
+      self.board[queue.first].display = (current_children.count { |child| bomb?(child) }).to_s
+      if board[queue.first].display == "0"
         seen_children << queue.shift
         current_children.each do |child|
           queue << child unless seen_children.include?(child) || queue.include?(child)

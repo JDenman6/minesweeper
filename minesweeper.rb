@@ -5,6 +5,16 @@ class Board
     place_bombs
   end
 
+  def [](pos)
+    x, y = pos
+    grid[x][y]
+  end
+
+  def []=(pos, value)
+    x, y = pos
+    grid[x][y] = value
+  end
+
 
   def board_spaces
     spaces = []
@@ -27,8 +37,7 @@ class Board
   def place_bombs
     bomb_spaces = board_spaces.sample(10)
     bomb_spaces.each do |space|
-      x, y = space
-      grid[x][y].bomb = true
+      self[space].bomb = true
     end
   end
 
