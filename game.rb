@@ -10,8 +10,9 @@ class Game
 
   def play
     board.display # display board to player
-    prompt
-    # get r/f & position (validate input)
+    input = prompt # get r/f & position !!(validate input)
+    toggle_flag(input[1]) if input[0] == "f"
+    board.display
     # if flag, toggle display between "F" & "-"
     # if reveal
       # check if pos bomb
@@ -25,6 +26,11 @@ class Game
     puts "Please enter a position"
     pos = gets.chomp.split(",").map { |el| el.to_i }
     [action, pos]
+  end
+
+  def toggle_flag(pos)
+    y, x = pos
+    board.grid[x][y].display = (board.grid[x][y].display == "F") ? "-" : "F"
   end
 
 end
