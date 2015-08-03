@@ -22,13 +22,11 @@ class Game
 
   def play
     board.display
-    puts "~~~~~~~~~~~~~~~~~~" # display board to player
     until won?
-      input = prompt # get r/f & position !!(validate input)
+      input = prompt #!!(validate input)
       if input[0] == "f"
-        toggle_flag(input[1]) # if flag, toggle display between "F" & "-"
+        toggle_flag(input[1]) 
         board.display
-        puts "~~~~~~~~~~~~~~~~~~"
         next
       end
       return "Game Over!" if input[0] == "r" && bomb?(input[1])
@@ -76,9 +74,10 @@ class Game
       else
         queue.shift
       end
-      board.display
-      puts "~~~~~~~~~~~~~~~~~~"
     end
+    board.display
+
+
     # iterate over queue looking for base condition
     # base condition is that child holds a bomb
     # count how many bombs that child can see

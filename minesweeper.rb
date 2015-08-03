@@ -30,7 +30,6 @@ class Board
     grid.each do |row|
       puts row.join(" ")
     end
-
     nil
   end
 
